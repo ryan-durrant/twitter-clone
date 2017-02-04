@@ -97,6 +97,9 @@ $(document).ready(function() {
         var formatted = time.getHours() + ":" + time.getMinutes() + " " + timePeriod + " - " + time.getDate() + " " + month[time.getMonth()] + " 17";
         cloneInfo.find($(".time:first").text(formatted));
 
+        //Changes the placeholder text
+        cloneInfo.find($(".reply:first .tweet-compose").attr("placeholder", "Reply to @" + name));
+
         //resets the character count
         $(".tweet-compose").val("");
         $("#char-count").text("140");
@@ -106,6 +109,28 @@ $(document).ready(function() {
         $('#tweet-controls').hide();
     });
 
-    $(".tweet-actions").hover();
+    //show the tweet actions upon a hover
+    $(".tweet-actions").hide();
+
+    $(".tweet").hover(
+      function(){
+      $(this).find(".tweet-actions").show();
+    },
+      function(){
+        $(".tweet-actions").hide();
+      });
+
+      //Reveal the retweets/timestamp/reply areas that are hidden by default on a click
+      $(".tweet").on('click', function(){
+        $(this).find(".stats").show();
+        $(this).find(".time").show();
+        $(this).find(".reply").show();
+      });
+
+      //Implement tooltips on the avatars.
+      $(".avatar:first").tooltip({
+        title: "My Title",
+        content: "Hellooo"
+      });
 
 });
