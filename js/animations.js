@@ -1,4 +1,8 @@
 $(document).ready(function() {
+    // $(function(){
+    //   $(document).tooltip();
+    // });
+
     var keystrokes;
     var userTweet;
     var retweets = 0;
@@ -128,7 +132,7 @@ $(document).ready(function() {
       });
 
       //Implement tooltips on the avatars.
-      $(".avatar:first").tooltip({
+      $(".avatar").tooltip({
         title: "My Title",
         content: "Hellooo"
       });
