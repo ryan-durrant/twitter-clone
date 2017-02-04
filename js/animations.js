@@ -1,140 +1,138 @@
 $(document).ready(function() {
-    // $(function(){
-    //   $(document).tooltip();
-    // });
+//Implement tooltips on the avatars.
+$('[data-toggle="popover"]').popover({
+    html: true,
+    title: "My Title",
+    content: "Hello"
+});
 
-    var keystrokes;
-    var userTweet;
-    var retweets = 0;
-    var favorites = 0;
-    //$('.tweet-compose')[0].focus();
 
-    $('.tweet-compose').on('click', function() {
-        //double the box height
-        $(this).css("height", "5em");
-        //alternative
-        // var inputBox = $(this);
-        // var height = $(this).height() * 2;
-        // inputBox.height(height);
+var keystrokes;
+var userTweet;
+var retweets = 0;
+var favorites = 0;
+//$('.tweet-compose')[0].focus();
 
-        //make the button and character count reappear
-        $('#tweet-controls').show();
+$('.tweet-compose').on('click', function() {
+    //double the box height
+    $(this).css("height", "5em");
+    //alternative
+    // var inputBox = $(this);
+    // var height = $(this).height() * 2;
+    // inputBox.height(height);
 
-    });
+    //make the button and character count reappear
+    $('#tweet-controls').show();
 
-    $('.tweet-compose').keyup(function() {
-        //keystrokes--;
+});
 
-        //console.log($(this).val().length);
-        keystrokes = 140 - ($(this).val().length);
-        //var remainingChars = maxChars - $(this).val().length;
-        //console.log('remaining: ' + remainingChars);
-        $('#char-count').text(keystrokes);
-        if (keystrokes <= 10) {
-            $('#char-count').css('color', 'red');
-        } else {
-            $('#char-count').css('color', '#999');
-        }
+$('.tweet-compose').keyup(function() {
+    //keystrokes--;
 
-        //show tweet button based on character count
-        if (keystrokes < 0) {
-            $('#tweet-submit').hide();
-        } else {
-            $('#tweet-submit').show();
-        }
+    //console.log($(this).val().length);
+    keystrokes = 140 - ($(this).val().length);
+    //var remainingChars = maxChars - $(this).val().length;
+    //console.log('remaining: ' + remainingChars);
+    $('#char-count').text(keystrokes);
+    if (keystrokes <= 10) {
+        $('#char-count').css('color', 'red');
+    } else {
+        $('#char-count').css('color', '#999');
+    }
 
-        userTweet = $(this).val();
-    });
+    //show tweet button based on character count
+    if (keystrokes < 0) {
+        $('#tweet-submit').hide();
+    } else {
+        $('#tweet-submit').show();
+    }
 
-    //Add the tweet to feed
-    $("button").click(function() {
+    userTweet = $(this).val();
+});
 
-        //clones the tweet class and adds user input into the class
-        var cloneInfo = $(".tweet:first").clone();
-        $("#stream").prepend(cloneInfo);
+//Add the tweet to feed
+$("button").click(function() {
 
-        //replaces the name element
-        var name = $(".content p:first").text();
-        cloneInfo.find($(".fullname:first").text(name));
+    //clones the tweet class and adds user input into the class
+    var cloneInfo = $(".tweet:first").clone();
+    $("#stream").prepend(cloneInfo);
 
-        //changes the name and replaces the username
-        name = name.replace(/\s/, "").toLowerCase();
-        cloneInfo.find($(".username:first").text("@" + name));
+    //replaces the name element
+    var name = $(".content p:first").text();
+    cloneInfo.find($(".fullname:first").text(name));
 
-        //Changes the tweet text
-        cloneInfo.find($(".tweet-text:first").text(userTweet));
+    //changes the name and replaces the username
+    name = name.replace(/\s/, "").toLowerCase();
+    cloneInfo.find($(".username:first").text("@" + name));
 
-        //changes the avatar
-        var imgSrc = $(".avatar:first").attr("src");
-        cloneInfo.find($("#stream .avatar:first").attr("src", imgSrc));
+    //Changes the tweet text
+    cloneInfo.find($(".tweet-text:first").text(userTweet));
 
-        //changes the Retweet and Favorites count
-        cloneInfo.find($(".num-retweets:first").text(retweets));
-        cloneInfo.find($(".num-favorites:first").text(favorites));
+    //changes the avatar
+    var imgSrc = $(".avatar:first").attr("src");
+    cloneInfo.find($("#stream .avatar:first").attr("src", imgSrc));
 
-        //removes the users-interact
-        cloneInfo.find($(".users-interact").remove());
+    //changes the Retweet and Favorites count
+    cloneInfo.find($(".num-retweets:first").text(retweets));
+    cloneInfo.find($(".num-favorites:first").text(favorites));
 
-        //add the current time
-        var time = new Date($.now());
+    //removes the users-interact
+    cloneInfo.find($(".users-interact").remove());
 
-        var month = [];
-        month[0] = "Jan";
-        month[1] = "Feb";
-        month[2] = "Mar";
-        month[3] = "Apr";
-        month[4] = "May";
-        month[5] = "Jun";
-        month[6] = "Jul";
-        month[7] = "Aug";
-        month[8] = "Sep";
-        month[9] = "Oct";
-        month[10] = "Nov";
-        month[11] = "Dec";
-        var timePeriod;
-        if (time.getHours() < 12) {
-            timePeriod = 'AM';
-        } else {
-            timePeriod = 'PM';
-        }
+    //add the current time
+    var time = new Date($.now());
 
-        var formatted = time.getHours() + ":" + time.getMinutes() + " " + timePeriod + " - " + time.getDate() + " " + month[time.getMonth()] + " 17";
-        cloneInfo.find($(".time:first").text(formatted));
+    var month = [];
+    month[0] = "Jan";
+    month[1] = "Feb";
+    month[2] = "Mar";
+    month[3] = "Apr";
+    month[4] = "May";
+    month[5] = "Jun";
+    month[6] = "Jul";
+    month[7] = "Aug";
+    month[8] = "Sep";
+    month[9] = "Oct";
+    month[10] = "Nov";
+    month[11] = "Dec";
+    var timePeriod;
+    if (time.getHours() < 12) {
+        timePeriod = 'AM';
+    } else {
+        timePeriod = 'PM';
+    }
 
-        //Changes the placeholder text
-        cloneInfo.find($(".reply:first .tweet-compose").attr("placeholder", "Reply to @" + name));
+    var formatted = time.getHours() + ":" + time.getMinutes() + " " + timePeriod + " - " + time.getDate() + " " + month[time.getMonth()] + " 17";
+    cloneInfo.find($(".time:first").text(formatted));
 
-        //resets the character count
-        $(".tweet-compose").val("");
-        $("#char-count").text("140");
+    //Changes the placeholder text
+    cloneInfo.find($(".reply:first .tweet-compose").attr("placeholder", "Reply to @" + name));
 
-        //decreases box size again
-        $('.tweet-compose').css("height", "2.5em");
-        $('#tweet-controls').hide();
-    });
+    //resets the character count
+    $(".tweet-compose").val("");
+    $("#char-count").text("140");
 
-    //show the tweet actions upon a hover
-    $(".tweet-actions").hide();
+    //decreases box size again
+    $('.tweet-compose').css("height", "2.5em");
+    $('#tweet-controls').hide();
+});
 
-    $(".tweet").hover(
-      function(){
-      $(this).find(".tweet-actions").show();
+//show the tweet actions upon a hover
+$(".tweet-actions").hide();
+
+$(".tweet").hover(
+    function() {
+        $(this).find(".tweet-actions").show();
     },
-      function(){
+    function() {
         $(".tweet-actions").hide();
-      });
+    });
 
-      //Reveal the retweets/timestamp/reply areas that are hidden by default on a click
-      $(".tweet").on('click', function(){
-        $(this).find(".stats").show();
-        $(this).find(".time").show();
-        $(this).find(".reply").show();
-      });
-
-      //Implement tooltips on the avatars.
-      $(".avatar").tooltip({
-        title: "My Title",
-        content: "Hellooo"
-      });
+//Reveal the retweets/timestamp/reply areas that are hidden by default on a click
+$(".tweet").on('click', function() {
+    $(this).find(".stats").show();
+    $(this).find(".time").show();
+    $(this).find(".reply").show();
+});
 
 });
