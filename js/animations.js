@@ -6,7 +6,6 @@ $('[data-toggle="popover"]').popover({
     content: "Hello"
 });
 
-
 var keystrokes;
 var userTweet;
 var retweets = 0;
@@ -120,12 +119,21 @@ $("button").click(function() {
 //show the tweet actions upon a hover
 $(".tweet-actions").hide();
 
-$(".tweet").hover(
-    function() {
+// $(".tweet").hover(
+//     function() {
+//         $(this).find(".tweet-actions").show();
+//     },
+//     function() {
+//         $(".tweet-actions").hide();
+//     });
+
+    $("#stream").on('mouseenter', '.tweet', function() {
+        //console.log($(this));
         $(this).find(".tweet-actions").show();
-    },
-    function() {
-        $(".tweet-actions").hide();
+    });
+    $("#stream").on('mouseleave', '.tweet', function() {
+        //console.log($(this));
+        $(this).find(".tweet-actions").hide();
     });
 
 //Reveal the retweets/timestamp/reply areas that are hidden by default on a click
